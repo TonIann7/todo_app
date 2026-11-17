@@ -1,17 +1,12 @@
-# todo_app
+# To-Do List
 
-A new Flutter project.
+App Flutter per la gestione di una lista di attività, realizzata per il corso EMAD.
 
-## Getting Started
+## Funzionalità
+- Aggiunta di un'attività con titolo (obbligatorio) e importanza
+- Elenco delle attività con stato, importanza e conteggio completate/totale
+- Cambio di stato (da fare / completata) toccando l'attività
+- Eliminazione con richiesta di conferma
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Autore
+Antonio Iannone – NF22500337
