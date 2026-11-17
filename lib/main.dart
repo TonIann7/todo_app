@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'attivita.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -7,65 +9,88 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-
-        colorScheme: .fromSeed(seedColor: Colors.deepPurple),
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      title: 'Todo List',
+      theme: ThemeData(colorScheme: .fromSeed(seedColor: Colors.deepPurple)),
+      home: const ElencoPage(title: 'Elenco Attività'),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+class ElencoPage extends StatefulWidget {
+  const ElencoPage({super.key, required this.title});
 
   final String title;
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<ElencoPage> createState() => _ElencoPageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+class _ElencoPageState extends State<ElencoPage> {
+  final List<Attivita> _attivita = [
+    Attivita(titolo: 'Fare la spesa', completata: true),
+    Attivita(titolo: 'Giocare a GTA VI', importante: true),
+    Attivita(titolo: 'Pagare la bolletta', importante: false),
+  ];
 
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
+  int get _numCompletate => _attivita
+      .where((a) => a.completata)
+      .length; //conta tutte le attività contrassegnate come completate
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
-
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-
         title: Text(widget.title),
-      ),
-      body: Center(
-
-        child: Column(
-
-          mainAxisAlignment: .center,
-          children: [
-            const Text('You have pushed the button this many times:'),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 16),
+            child: Center(
+              child: Text(
+                '$_numCompletate/${_attivita.length}',
+                style: const TextStyle(fontSize: 18),
+              ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
+      body: _attivita.isEmpty
+          ? const Center(
+              child: Text(
+                'Nessuna attività.\n Premi + per aggiungerne una.',
+                textAlign: TextAlign.center,
+              ),
+            )
+          : ListView.builder(
+              itemCount: _attivita.length,
+              itemBuilder: (context, index) {
+                final attivita = _attivita[index];
+                return ListTile(
+                  leading: Icon(
+                    attivita.completata
+                        ? Icons.check_circle
+                        : Icons.radio_button_unchecked,
+                    color: attivita.completata ? Colors.green : null,
+                  ),
+                  title: Text(
+                    attivita.titolo,
+                    style: TextStyle(
+                      decoration: attivita.completata
+                          ? TextDecoration.lineThrough
+                          : null,
+                    ),
+                  ),
+                  trailing: attivita.importante
+                      ? const Icon(Icons.star, color: Colors.amber)
+                      : null,
+                );
+              },
+            ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
+        onPressed: () {},
+        tooltip: 'Nuova attività',
         child: const Icon(Icons.add),
       ),
     );
